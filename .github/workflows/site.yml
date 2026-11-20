@@ -1,0 +1,69 @@
+name: Build knowledge base
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Compile and run the host and Linux examples
+        run: |
+          for source in examples/c/*/main.c; do
+            example=$(basename "$(dirname "$source")")
+            gcc -std=c11 -Wall -Wextra -Werror -pedantic "$source" -o "$RUNNER_TEMP/$example"
+            "$RUNNER_TEMP/$example"
+          done
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -fno-exceptions examples/cpp/spi-chip-select/main.cpp -o "$RUNNER_TEMP/spi-chip-select"
+          "$RUNNER_TEMP/spi-chip-select"
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic examples/stm32/flash/settings-journal/check.c -o "$RUNNER_TEMP/flash-journal"
+          "$RUNNER_TEMP/flash-journal"
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic examples/projects/can-to-sd/check.c -o "$RUNNER_TEMP/can-to-sd"
+          "$RUNNER_TEMP/can-to-sd"
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic examples/projects/sht30-display/check.c -o "$RUNNER_TEMP/sht30-display"
+          "$RUNNER_TEMP/sht30-display"
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic examples/stm32/wireless/esp-at-status/check.c -o "$RUNNER_TEMP/esp-at-status"
+          "$RUNNER_TEMP/esp-at-status"
+          for example in rs485/modbus-rtu spi/nor-settings fsmc/ili9341-touch fsmc/external-sram uart/ring-echo i2c/mpu6050-acceleration; do
+            gcc -std=c11 -Wall -Wextra -Werror -pedantic "examples/stm32/$example/check.c" -o "$RUNNER_TEMP/${example##*/}"
+            "$RUNNER_TEMP/${example##*/}"
+          done
+          make -C examples/linux CC=gcc OUT="$RUNNER_TEMP/linux"
+          "$RUNNER_TEMP/linux/poll-ipc"
+          python3 examples/linux/tcp-outbox/check.py
+          gcc -std=c11 -Wall -Wextra -Werror -Iexamples/c/stream-frame examples/projects/sensor-to-json/host/main.c -o "$RUNNER_TEMP/sensor-json"
+          test "$(printf '\252\002\003\105\104\252\002\000\001\000' | "$RUNNER_TEMP/sensor-json")" = '{"adc_raw":837}'
+      - run: npm ci
+      - run: npm run docs:build
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: .vitepress/dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    steps:
+      - name: Publish static site
+        id: publish
+        uses: actions/deploy-pages@v4

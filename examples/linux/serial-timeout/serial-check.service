@@ -1,0 +1,10 @@
+[Unit]
+Description=Check one batch of serial input
+
+[Service]
+Type=oneshot
+User=serialdemo
+ExecStart=/usr/local/bin/serial-timeout /dev/ttyUSB0
+SuccessExitStatus=2
+StandardOutput=journal
+StandardError=journal

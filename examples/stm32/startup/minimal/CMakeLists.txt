@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.20)
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+project(sky_minimal_startup LANGUAGES C ASM)
+
+include("../../common/sky-cmsis.cmake")
+add_sky_cmsis_example(sky-minimal-startup.elf)
+target_link_options(sky-minimal-startup.elf PRIVATE "-Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/sky-minimal-startup.map")

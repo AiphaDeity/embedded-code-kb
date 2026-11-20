@@ -1,0 +1,4 @@
+config BR2_PACKAGE_KB_SERIAL
+	bool "kb-serial"
+	help
+	  Read a Linux serial port with a bounded wait and print bytes as hex.

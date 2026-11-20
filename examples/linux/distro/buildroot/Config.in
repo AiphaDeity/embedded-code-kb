@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_EMBEDDED_CODE_KB_PATH/package/kb-serial/Config.in"

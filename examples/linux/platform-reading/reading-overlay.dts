@@ -1,0 +1,14 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            kb-reading {
+                compatible = "code-kb,reading-demo";
+                demo-value = <42>;
+            };
+        };
+    };
+};

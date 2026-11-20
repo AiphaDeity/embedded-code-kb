@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.20)
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+project(sky_adc_single_channel LANGUAGES C ASM)
+
+include("../../common/sky-hal.cmake")
+add_sky_hal_example(sky-adc-single-channel.elf adc)

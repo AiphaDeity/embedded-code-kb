@@ -1,0 +1,20 @@
+set(CUBE_F4_ROOT "" CACHE PATH "Path to STM32Cube_FW_F4_V1.28.3")
+
+function(add_sky_cmsis_example target)
+  set(cmsis "${CUBE_F4_ROOT}/Drivers/CMSIS")
+  set(device "${cmsis}/Device/ST/STM32F4xx")
+  set(startup "${device}/Source/Templates/gcc/startup_stm32f407xx.s")
+  set(linker_script "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/stm32f407ve.ld")
+  if(NOT EXISTS "${startup}")
+    message(FATAL_ERROR "Set CUBE_F4_ROOT to the extracted STM32CubeF4 firmware package.")
+  endif()
+
+  set(cpu -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard)
+  add_executable(${target} main.c "${startup}" "${device}/Source/Templates/system_stm32f4xx.c")
+  target_include_directories(${target} PRIVATE "${cmsis}/Include" "${device}/Include")
+  target_compile_definitions(${target} PRIVATE STM32F407xx)
+  target_compile_options(${target} PRIVATE ${cpu} -Og -g3 -ffunction-sections -fdata-sections)
+  target_link_options(${target} PRIVATE ${cpu} --specs=nano.specs --specs=nosys.specs
+    "-T${linker_script}" -Wl,--gc-sections)
+  set_property(TARGET ${target} APPEND PROPERTY LINK_DEPENDS "${linker_script}")
+endfunction()

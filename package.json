@@ -1,0 +1,13 @@
+{
+  "name": "embedded-code-kb",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "fflate": "0.8.3",
+    "vitepress": "1.6.4"
+  }
+}
