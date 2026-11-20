@@ -119,7 +119,7 @@ export default strFromU8(gunzipSync(compressed))
         ],
       },
       {
-        text: 'MCU + RTOS · FreeRTOS',
+        text: 'MCU + FreeRTOS',
         collapsed: true,
         items: [
           { text: '队列交接串口数据', link: '/docs/freertos/queue-message' },
