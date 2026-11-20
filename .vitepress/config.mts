@@ -48,6 +48,7 @@ export default strFromU8(gunzipSync(compressed))
       },
       {
         text: '通用 C / C++',
+        collapsed: true,
         items: [
           { text: '从字节数组读取整数', link: '/docs/c/byte-array-parsing' },
           { text: 'C 位域掩码读取与改写', link: '/docs/c/bit-field' },
@@ -64,6 +65,7 @@ export default strFromU8(gunzipSync(compressed))
       },
       {
         text: 'MCU 裸机 · STM32',
+        collapsed: true,
         items: [
           { text: 'STM32 从复位走到最小主循环', link: '/docs/stm32/startup/minimal' },
           { text: '01 GPIO · 天空星按键点灯', link: '/docs/stm32/gpio/button-led' },
@@ -118,6 +120,7 @@ export default strFromU8(gunzipSync(compressed))
       },
       {
         text: 'MCU + RTOS · FreeRTOS',
+        collapsed: true,
         items: [
           { text: '队列交接串口数据', link: '/docs/freertos/queue-message' },
           { text: 'FreeRTOS 串口任务解帧与丢字节恢复', link: '/docs/freertos/uart-parser' },
@@ -137,6 +140,7 @@ export default strFromU8(gunzipSync(compressed))
       },
       {
         text: '嵌入式 Linux',
+        collapsed: true,
         items: [
           { text: 'Linux 串口限时读取', link: '/docs/linux/serial-timeout' },
           { text: 'Linux poll 监听管道与 Unix 域套接字', link: '/docs/linux/poll-ipc' },
@@ -150,6 +154,7 @@ export default strFromU8(gunzipSync(compressed))
       },
       {
         text: '项目与排障',
+        collapsed: true,
         items: [
           { text: '从天空星 ADC 到 JSON', link: '/docs/projects/sensor-to-json' },
           { text: 'Modbus–MQTT 网关阅读路线', link: '/docs/projects/modbus-mqtt-reading' },
