@@ -4,6 +4,8 @@
 
 ## 可直接运行的 C 示例
 
+想先手推两字节如何合成一个整数，可读[第 16 课 · 字节序](../c-reading/16.md)。
+
 <a href="../../examples/c/byte-array-parsing/main.c" download="main.c">查看或下载完整源码 main.c</a>
 
 <<< ../../examples/c/byte-array-parsing/main.c

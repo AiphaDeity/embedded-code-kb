@@ -44,6 +44,19 @@ jobs:
           gcc -std=c11 -Wall -Wextra -Werror -Iexamples/c/stream-frame examples/projects/sensor-to-json/host/main.c -o "$RUNNER_TEMP/sensor-json"
           test "$(printf '\252\002\003\105\104\252\002\000\001\000' | "$RUNNER_TEMP/sensor-json")" = '{"adc_raw":837}'
       - run: npm ci
+      - name: Compile and run the C code reading lessons
+        shell: bash
+        run: |
+          for lesson in examples/c-reading/[0-9]*; do
+            id=$(basename "$lesson")
+            case "$id" in
+              24) sources=("$lesson/main.c" "$lesson/counter.c") ;;
+              43) sources=("$lesson/host_main.c" "$lesson/rx.c") ;;
+              *) sources=("$lesson/main.c") ;;
+            esac
+            gcc -std=c11 -Wall -Wextra -pedantic "${sources[@]}" -o "$RUNNER_TEMP/c-reading-$id"
+            "$RUNNER_TEMP/c-reading-$id"
+          done
       - run: npm run docs:build
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

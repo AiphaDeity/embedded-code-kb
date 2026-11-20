@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { defineConfig } from 'vitepress'
 import { checkSourceDownloads } from './check-source-downloads.mts'
+import { cReadingStages } from './c-reading-sidebar.mts'
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -36,8 +37,15 @@ export default strFromU8(gunzipSync(compressed))
     nav: [
       { text: '首页', link: '/' },
       { text: '总目录', link: '/嵌入式代码模板库-总目录' },
+      { text: 'C 代码跟读', link: '/docs/c-reading/' },
     ],
     sidebar: [
+      {
+        text: '嵌入式 C 代码跟读',
+        link: '/docs/c-reading/',
+        collapsed: true,
+        items: cReadingStages,
+      },
       {
         text: '通用 C / C++',
         items: [

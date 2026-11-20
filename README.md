@@ -4,6 +4,8 @@
 
 [打开知识库网页](https://aiphadeity.github.io/embedded-code-kb/)
 
+想从头练习读代码，可以从[嵌入式 C 代码跟读](docs/c-reading/index.md)开始。46 个条目从顺着 main 读程序讲到 STM32 串口结课项目。
+
 ## 可读示例
 
 收到三个字节 `11 22 33`。从第二个字节开始能读出什么？如果只剩最后一个字节，输出变量会怎样？
