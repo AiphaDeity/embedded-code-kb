@@ -7,7 +7,7 @@ import { cReadingStages } from './c-reading-sidebar.mts'
 
 export default defineConfig({
   lang: 'zh-CN',
-  title: '嵌入式代码模板库',
+  title: '嵌入式代码知识库',
   description: '按运行环境和功能查找嵌入式代码示例，沿源码执行路径阅读与练习。',
   base: '/embedded-code-kb/',
   srcExclude: ['templates/**', 'agent.md', '实施计划.md', '.work/**'],
