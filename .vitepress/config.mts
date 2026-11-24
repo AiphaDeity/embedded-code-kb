@@ -5,11 +5,15 @@ import { defineConfig } from 'vitepress'
 import { checkSourceDownloads } from './check-source-downloads.mts'
 import { cReadingStages } from './c-reading-sidebar.mts'
 
+// 站点挂在自定义域根目录（code.aiphadeity.cn）时 base 为 '/'；仍部署在 GitHub Pages
+// 子路径时由 VITEPRESS_BASE 注入 '/embedded-code-kb/'。
+const siteBase = process.env.VITEPRESS_BASE ?? '/'
+
 export default defineConfig({
   lang: 'zh-CN',
   title: '嵌入式代码知识库',
   description: '按运行环境和功能查找嵌入式代码示例，沿源码执行路径阅读与练习。',
-  base: '/embedded-code-kb/',
+  base: siteBase,
   srcExclude: ['templates/**', 'agent.md', '实施计划.md', '.work/**'],
   rewrites: { 'README.md': 'index.md' },
   vite: {

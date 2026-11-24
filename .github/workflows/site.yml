@@ -58,6 +58,8 @@ jobs:
             "$RUNNER_TEMP/c-reading-$id"
           done
       - run: npm run docs:build
+        env:
+          VITEPRESS_BASE: /embedded-code-kb/
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
